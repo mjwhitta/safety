@@ -38,20 +38,35 @@ func New${thetype^}() *${thetype^} {
 	return &${thetype^}{}
 }
 
-// Get will return the current value.
-func (m *${thetype^}) Get() $thetype {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *${thetype^}) CheckSet(expected, newval $thetype) bool {
+	p.Lock()
+	defer p.Unlock()
 
-    return m.value
+    if p.value == expected {
+        p.value = newval
+        return true
+    }
+
+    return false
+}
+
+// Get will return the current value.
+func (p *${thetype^}) Get() $thetype {
+	p.RLock()
+	defer p.RUnlock()
+
+    return p.value
 }
 
 // Set will set the current value.
-func (m *${thetype^}) Set(val $thetype) {
-	m.Lock()
-	defer m.Unlock()
+func (p *${thetype^}) Set(val $thetype) {
+	p.Lock()
+	defer p.Unlock()
 
-    m.value = val
+    p.value = val
 }
 EOF
 }

@@ -14,20 +14,35 @@ func NewBool() *Bool {
 	return &Bool{}
 }
 
-// Get will return the current value.
-func (m *Bool) Get() bool {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Bool) CheckSet(expected, newval bool) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Bool) Get() bool {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Bool) Set(val bool) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Bool) Set(val bool) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Float32 is a thread-safe float32 implementation.
@@ -41,20 +56,35 @@ func NewFloat32() *Float32 {
 	return &Float32{}
 }
 
-// Get will return the current value.
-func (m *Float32) Get() float32 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Float32) CheckSet(expected, newval float32) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Float32) Get() float32 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Float32) Set(val float32) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Float32) Set(val float32) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Float64 is a thread-safe float64 implementation.
@@ -68,20 +98,35 @@ func NewFloat64() *Float64 {
 	return &Float64{}
 }
 
-// Get will return the current value.
-func (m *Float64) Get() float64 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Float64) CheckSet(expected, newval float64) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Float64) Get() float64 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Float64) Set(val float64) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Float64) Set(val float64) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Int is a thread-safe int implementation.
@@ -95,20 +140,35 @@ func NewInt() *Int {
 	return &Int{}
 }
 
-// Get will return the current value.
-func (m *Int) Get() int {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int) CheckSet(expected, newval int) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Int) Get() int {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Int) Set(val int) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Int) Set(val int) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Int8 is a thread-safe int8 implementation.
@@ -122,20 +182,35 @@ func NewInt8() *Int8 {
 	return &Int8{}
 }
 
-// Get will return the current value.
-func (m *Int8) Get() int8 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int8) CheckSet(expected, newval int8) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Int8) Get() int8 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Int8) Set(val int8) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Int8) Set(val int8) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Int16 is a thread-safe int16 implementation.
@@ -149,20 +224,35 @@ func NewInt16() *Int16 {
 	return &Int16{}
 }
 
-// Get will return the current value.
-func (m *Int16) Get() int16 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int16) CheckSet(expected, newval int16) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Int16) Get() int16 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Int16) Set(val int16) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Int16) Set(val int16) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Int32 is a thread-safe int32 implementation.
@@ -176,20 +266,35 @@ func NewInt32() *Int32 {
 	return &Int32{}
 }
 
-// Get will return the current value.
-func (m *Int32) Get() int32 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int32) CheckSet(expected, newval int32) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Int32) Get() int32 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Int32) Set(val int32) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Int32) Set(val int32) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Int64 is a thread-safe int64 implementation.
@@ -203,20 +308,35 @@ func NewInt64() *Int64 {
 	return &Int64{}
 }
 
-// Get will return the current value.
-func (m *Int64) Get() int64 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int64) CheckSet(expected, newval int64) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Int64) Get() int64 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Int64) Set(val int64) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Int64) Set(val int64) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // String is a thread-safe string implementation.
@@ -230,20 +350,35 @@ func NewString() *String {
 	return &String{}
 }
 
-// Get will return the current value.
-func (m *String) Get() string {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *String) CheckSet(expected, newval string) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *String) Get() string {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *String) Set(val string) {
-	m.Lock()
-	defer m.Unlock()
+func (p *String) Set(val string) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Uint is a thread-safe uint implementation.
@@ -257,20 +392,35 @@ func NewUint() *Uint {
 	return &Uint{}
 }
 
-// Get will return the current value.
-func (m *Uint) Get() uint {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint) CheckSet(expected, newval uint) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Uint) Get() uint {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Uint) Set(val uint) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Uint) Set(val uint) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Uint8 is a thread-safe uint8 implementation.
@@ -284,20 +434,35 @@ func NewUint8() *Uint8 {
 	return &Uint8{}
 }
 
-// Get will return the current value.
-func (m *Uint8) Get() uint8 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint8) CheckSet(expected, newval uint8) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Uint8) Get() uint8 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Uint8) Set(val uint8) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Uint8) Set(val uint8) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Uint16 is a thread-safe uint16 implementation.
@@ -311,20 +476,35 @@ func NewUint16() *Uint16 {
 	return &Uint16{}
 }
 
-// Get will return the current value.
-func (m *Uint16) Get() uint16 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint16) CheckSet(expected, newval uint16) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Uint16) Get() uint16 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Uint16) Set(val uint16) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Uint16) Set(val uint16) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Uint32 is a thread-safe uint32 implementation.
@@ -338,20 +518,35 @@ func NewUint32() *Uint32 {
 	return &Uint32{}
 }
 
-// Get will return the current value.
-func (m *Uint32) Get() uint32 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint32) CheckSet(expected, newval uint32) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Uint32) Get() uint32 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Uint32) Set(val uint32) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Uint32) Set(val uint32) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
 
 // Uint64 is a thread-safe uint64 implementation.
@@ -365,18 +560,33 @@ func NewUint64() *Uint64 {
 	return &Uint64{}
 }
 
-// Get will return the current value.
-func (m *Uint64) Get() uint64 {
-	m.RLock()
-	defer m.RUnlock()
+// CheckSet will check if the value matches the provided value. If it
+// matches, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint64) CheckSet(expected, newval uint64) bool {
+	p.Lock()
+	defer p.Unlock()
 
-	return m.value
+	if p.value == expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// Get will return the current value.
+func (p *Uint64) Get() uint64 {
+	p.RLock()
+	defer p.RUnlock()
+
+	return p.value
 }
 
 // Set will set the current value.
-func (m *Uint64) Set(val uint64) {
-	m.Lock()
-	defer m.Unlock()
+func (p *Uint64) Set(val uint64) {
+	p.Lock()
+	defer p.Unlock()
 
-	m.value = val
+	p.value = val
 }
