@@ -26,7 +26,10 @@ import (
 
 func main() {
     var m *safety.Map = safety.NewMap()
+    var s *safety.Set = safety.NewSet()
+    var sl *safety.Slice = safety.NewSlice()
 
+    // Maps
     m.Put("a", "asdf")
     m.Put("b", "blah")
     m.Put("s", "stop")
@@ -45,6 +48,46 @@ func main() {
     )
 
     hl.Println(m.Keys())
+
+    // Sets
+    s.Add("asdf")
+    s.Add("blah")
+    s.Add("stop")
+    s.Add("test")
+
+    s.Range(
+        func(entry interface{}) bool {
+            switch entry.(string) {
+            case "stop":
+                return true
+            }
+
+            hl.Printf("Set includes: %s\n", entry.(string))
+            return false
+        },
+    )
+
+    hl.Println(s.Get())
+
+    // Slices
+    sl.Append("asdf")
+    sl.Append("blah")
+    sl.Append("stop")
+    sl.Append("test")
+
+    sl.Range(
+        func(i int, v interface{}) bool {
+            switch v.(string) {
+            case "stop":
+                return true
+            }
+
+            hl.Printf("Slice %d: %s\n", i, v.(string))
+            return false
+        },
+    )
+
+    hl.Println(sl.Get(0))
 }
 ```
 
