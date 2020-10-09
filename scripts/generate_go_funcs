@@ -68,6 +68,34 @@ func (p *${thetype^}) Set(val $thetype) {
 
     p.value = val
 }
+
+$(
+    case "$thetype" in
+        *"int"*)
+            cat <<EOS
+// Dec will decrement the current value and return the new value.
+func (p *${thetype^}) Dec() $thetype {
+	p.Lock()
+	defer p.Unlock()
+
+    p.value--
+
+    return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *${thetype^}) Inc() $thetype {
+	p.Lock()
+	defer p.Unlock()
+
+    p.value++
+
+    return p.value
+}
+EOS
+            ;;
+    esac
+)
 EOF
 }
 

@@ -171,6 +171,26 @@ func (p *Int) Set(val int) {
 	p.value = val
 }
 
+// Dec will decrement the current value and return the new value.
+func (p *Int) Dec() int {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Int) Inc() int {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
+}
+
 // Int8 is a thread-safe int8 implementation.
 type Int8 struct {
 	sync.RWMutex
@@ -211,6 +231,26 @@ func (p *Int8) Set(val int8) {
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// Dec will decrement the current value and return the new value.
+func (p *Int8) Dec() int8 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Int8) Inc() int8 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
 }
 
 // Int16 is a thread-safe int16 implementation.
@@ -255,6 +295,26 @@ func (p *Int16) Set(val int16) {
 	p.value = val
 }
 
+// Dec will decrement the current value and return the new value.
+func (p *Int16) Dec() int16 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Int16) Inc() int16 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
+}
+
 // Int32 is a thread-safe int32 implementation.
 type Int32 struct {
 	sync.RWMutex
@@ -297,6 +357,26 @@ func (p *Int32) Set(val int32) {
 	p.value = val
 }
 
+// Dec will decrement the current value and return the new value.
+func (p *Int32) Dec() int32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Int32) Inc() int32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
+}
+
 // Int64 is a thread-safe int64 implementation.
 type Int64 struct {
 	sync.RWMutex
@@ -337,6 +417,26 @@ func (p *Int64) Set(val int64) {
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// Dec will decrement the current value and return the new value.
+func (p *Int64) Dec() int64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Int64) Inc() int64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
 }
 
 // String is a thread-safe string implementation.
@@ -423,6 +523,26 @@ func (p *Uint) Set(val uint) {
 	p.value = val
 }
 
+// Dec will decrement the current value and return the new value.
+func (p *Uint) Dec() uint {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Uint) Inc() uint {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
+}
+
 // Uint8 is a thread-safe uint8 implementation.
 type Uint8 struct {
 	sync.RWMutex
@@ -463,6 +583,26 @@ func (p *Uint8) Set(val uint8) {
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// Dec will decrement the current value and return the new value.
+func (p *Uint8) Dec() uint8 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Uint8) Inc() uint8 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
 }
 
 // Uint16 is a thread-safe uint16 implementation.
@@ -507,6 +647,26 @@ func (p *Uint16) Set(val uint16) {
 	p.value = val
 }
 
+// Dec will decrement the current value and return the new value.
+func (p *Uint16) Dec() uint16 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Uint16) Inc() uint16 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
+}
+
 // Uint32 is a thread-safe uint32 implementation.
 type Uint32 struct {
 	sync.RWMutex
@@ -549,6 +709,26 @@ func (p *Uint32) Set(val uint32) {
 	p.value = val
 }
 
+// Dec will decrement the current value and return the new value.
+func (p *Uint32) Dec() uint32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Uint32) Inc() uint32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
+}
+
 // Uint64 is a thread-safe uint64 implementation.
 type Uint64 struct {
 	sync.RWMutex
@@ -589,4 +769,24 @@ func (p *Uint64) Set(val uint64) {
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// Dec will decrement the current value and return the new value.
+func (p *Uint64) Dec() uint64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value and return the new value.
+func (p *Uint64) Inc() uint64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
 }
