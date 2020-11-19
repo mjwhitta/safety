@@ -1,3 +1,3 @@
 module gitlab.com/mjwhitta/safety
 
-go 1.14
+go 1.15
