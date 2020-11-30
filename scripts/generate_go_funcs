@@ -71,9 +71,19 @@ func (p *${thetype^}) Set(val $thetype) {
 
 $(
     case "$thetype" in
-        *"int"*)
+        "float"*|*"int"*)
             cat <<EOS
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *${thetype^}) Add(value $thetype) $thetype {
+	p.Lock()
+	defer p.Unlock()
+
+    p.value += value
+
+    return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *${thetype^}) Dec() $thetype {
 	p.Lock()
 	defer p.Unlock()
@@ -83,12 +93,22 @@ func (p *${thetype^}) Dec() $thetype {
     return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *${thetype^}) Inc() $thetype {
 	p.Lock()
 	defer p.Unlock()
 
     p.value++
+
+    return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *${thetype^}) Sub(value $thetype) $thetype {
+	p.Lock()
+	defer p.Unlock()
+
+    p.value -= value
 
     return p.value
 }

@@ -87,6 +87,46 @@ func (p *Float32) Set(val float32) {
 	p.value = val
 }
 
+// Add will add the value and return the new value.
+func (p *Float32) Add(value float32) float32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
+func (p *Float32) Dec() float32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value by 1 and return the new value.
+func (p *Float32) Inc() float32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Float32) Sub(value float32) float32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
+
+	return p.value
+}
+
 // Float64 is a thread-safe float64 implementation.
 type Float64 struct {
 	sync.RWMutex
@@ -127,6 +167,46 @@ func (p *Float64) Set(val float64) {
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// Add will add the value and return the new value.
+func (p *Float64) Add(value float64) float64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
+func (p *Float64) Dec() float64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value--
+
+	return p.value
+}
+
+// Inc will increment the current value by 1 and return the new value.
+func (p *Float64) Inc() float64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Float64) Sub(value float64) float64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
+
+	return p.value
 }
 
 // Int is a thread-safe int implementation.
@@ -171,7 +251,17 @@ func (p *Int) Set(val int) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Int) Add(value int) int {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Int) Dec() int {
 	p.Lock()
 	defer p.Unlock()
@@ -181,12 +271,22 @@ func (p *Int) Dec() int {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Int) Inc() int {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Int) Sub(value int) int {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -233,7 +333,17 @@ func (p *Int8) Set(val int8) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Int8) Add(value int8) int8 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Int8) Dec() int8 {
 	p.Lock()
 	defer p.Unlock()
@@ -243,12 +353,22 @@ func (p *Int8) Dec() int8 {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Int8) Inc() int8 {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Int8) Sub(value int8) int8 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -295,7 +415,17 @@ func (p *Int16) Set(val int16) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Int16) Add(value int16) int16 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Int16) Dec() int16 {
 	p.Lock()
 	defer p.Unlock()
@@ -305,12 +435,22 @@ func (p *Int16) Dec() int16 {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Int16) Inc() int16 {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Int16) Sub(value int16) int16 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -357,7 +497,17 @@ func (p *Int32) Set(val int32) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Int32) Add(value int32) int32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Int32) Dec() int32 {
 	p.Lock()
 	defer p.Unlock()
@@ -367,12 +517,22 @@ func (p *Int32) Dec() int32 {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Int32) Inc() int32 {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Int32) Sub(value int32) int32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -419,7 +579,17 @@ func (p *Int64) Set(val int64) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Int64) Add(value int64) int64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Int64) Dec() int64 {
 	p.Lock()
 	defer p.Unlock()
@@ -429,12 +599,22 @@ func (p *Int64) Dec() int64 {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Int64) Inc() int64 {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Int64) Sub(value int64) int64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -523,7 +703,17 @@ func (p *Uint) Set(val uint) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Uint) Add(value uint) uint {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Uint) Dec() uint {
 	p.Lock()
 	defer p.Unlock()
@@ -533,12 +723,22 @@ func (p *Uint) Dec() uint {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Uint) Inc() uint {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Uint) Sub(value uint) uint {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -585,7 +785,17 @@ func (p *Uint8) Set(val uint8) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Uint8) Add(value uint8) uint8 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Uint8) Dec() uint8 {
 	p.Lock()
 	defer p.Unlock()
@@ -595,12 +805,22 @@ func (p *Uint8) Dec() uint8 {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Uint8) Inc() uint8 {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Uint8) Sub(value uint8) uint8 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -647,7 +867,17 @@ func (p *Uint16) Set(val uint16) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Uint16) Add(value uint16) uint16 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Uint16) Dec() uint16 {
 	p.Lock()
 	defer p.Unlock()
@@ -657,12 +887,22 @@ func (p *Uint16) Dec() uint16 {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Uint16) Inc() uint16 {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Uint16) Sub(value uint16) uint16 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -709,7 +949,17 @@ func (p *Uint32) Set(val uint32) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Uint32) Add(value uint32) uint32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Uint32) Dec() uint32 {
 	p.Lock()
 	defer p.Unlock()
@@ -719,12 +969,22 @@ func (p *Uint32) Dec() uint32 {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Uint32) Inc() uint32 {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Uint32) Sub(value uint32) uint32 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
@@ -771,7 +1031,17 @@ func (p *Uint64) Set(val uint64) {
 	p.value = val
 }
 
-// Dec will decrement the current value and return the new value.
+// Add will add the value and return the new value.
+func (p *Uint64) Add(value uint64) uint64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value += value
+
+	return p.value
+}
+
+// Dec will decrement the current value by 1 and return the new value.
 func (p *Uint64) Dec() uint64 {
 	p.Lock()
 	defer p.Unlock()
@@ -781,12 +1051,22 @@ func (p *Uint64) Dec() uint64 {
 	return p.value
 }
 
-// Inc will increment the current value and return the new value.
+// Inc will increment the current value by 1 and return the new value.
 func (p *Uint64) Inc() uint64 {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value++
+
+	return p.value
+}
+
+// Sub will subtract the value and return the new value.
+func (p *Uint64) Sub(value uint64) uint64 {
+	p.Lock()
+	defer p.Unlock()
+
+	p.value -= value
 
 	return p.value
 }
