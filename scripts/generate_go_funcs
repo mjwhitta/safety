@@ -88,9 +88,7 @@ func (p *${thetype^}) Dec() $thetype {
 	p.Lock()
 	defer p.Unlock()
 
-    p.value--
-
-    return p.value
+    return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -98,9 +96,7 @@ func (p *${thetype^}) Inc() $thetype {
 	p.Lock()
 	defer p.Unlock()
 
-    p.value++
-
-    return p.value
+    return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -110,6 +106,32 @@ func (p *${thetype^}) Sub(value $thetype) $thetype {
 
     p.value -= value
 
+    return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *${thetype^}) UnsafeAdd(value $thetype) $thetype {
+    p.value += value
+    return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *${thetype^}) UnsafeDec() $thetype {
+    return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *${thetype^}) UnsafeInc() $thetype {
+    return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *${thetype^}) UnsafeSub(value $thetype) $thetype {
+    p.value -= value
     return p.value
 }
 EOS

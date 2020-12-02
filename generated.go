@@ -102,9 +102,7 @@ func (p *Float32) Dec() float32 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -112,9 +110,7 @@ func (p *Float32) Inc() float32 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -124,6 +120,32 @@ func (p *Float32) Sub(value float32) float32 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Float32) UnsafeAdd(value float32) float32 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Float32) UnsafeDec() float32 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Float32) UnsafeInc() float32 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Float32) UnsafeSub(value float32) float32 {
+	p.value -= value
 	return p.value
 }
 
@@ -184,9 +206,7 @@ func (p *Float64) Dec() float64 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -194,9 +214,7 @@ func (p *Float64) Inc() float64 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -206,6 +224,32 @@ func (p *Float64) Sub(value float64) float64 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Float64) UnsafeAdd(value float64) float64 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Float64) UnsafeDec() float64 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Float64) UnsafeInc() float64 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Float64) UnsafeSub(value float64) float64 {
+	p.value -= value
 	return p.value
 }
 
@@ -266,9 +310,7 @@ func (p *Int) Dec() int {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -276,9 +318,7 @@ func (p *Int) Inc() int {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -288,6 +328,32 @@ func (p *Int) Sub(value int) int {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Int) UnsafeAdd(value int) int {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int) UnsafeDec() int {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int) UnsafeInc() int {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Int) UnsafeSub(value int) int {
+	p.value -= value
 	return p.value
 }
 
@@ -348,9 +414,7 @@ func (p *Int8) Dec() int8 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -358,9 +422,7 @@ func (p *Int8) Inc() int8 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -370,6 +432,32 @@ func (p *Int8) Sub(value int8) int8 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Int8) UnsafeAdd(value int8) int8 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int8) UnsafeDec() int8 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int8) UnsafeInc() int8 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Int8) UnsafeSub(value int8) int8 {
+	p.value -= value
 	return p.value
 }
 
@@ -430,9 +518,7 @@ func (p *Int16) Dec() int16 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -440,9 +526,7 @@ func (p *Int16) Inc() int16 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -452,6 +536,32 @@ func (p *Int16) Sub(value int16) int16 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Int16) UnsafeAdd(value int16) int16 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int16) UnsafeDec() int16 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int16) UnsafeInc() int16 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Int16) UnsafeSub(value int16) int16 {
+	p.value -= value
 	return p.value
 }
 
@@ -512,9 +622,7 @@ func (p *Int32) Dec() int32 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -522,9 +630,7 @@ func (p *Int32) Inc() int32 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -534,6 +640,32 @@ func (p *Int32) Sub(value int32) int32 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Int32) UnsafeAdd(value int32) int32 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int32) UnsafeDec() int32 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int32) UnsafeInc() int32 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Int32) UnsafeSub(value int32) int32 {
+	p.value -= value
 	return p.value
 }
 
@@ -594,9 +726,7 @@ func (p *Int64) Dec() int64 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -604,9 +734,7 @@ func (p *Int64) Inc() int64 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -616,6 +744,32 @@ func (p *Int64) Sub(value int64) int64 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Int64) UnsafeAdd(value int64) int64 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int64) UnsafeDec() int64 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Int64) UnsafeInc() int64 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Int64) UnsafeSub(value int64) int64 {
+	p.value -= value
 	return p.value
 }
 
@@ -718,9 +872,7 @@ func (p *Uint) Dec() uint {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -728,9 +880,7 @@ func (p *Uint) Inc() uint {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -740,6 +890,32 @@ func (p *Uint) Sub(value uint) uint {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Uint) UnsafeAdd(value uint) uint {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint) UnsafeDec() uint {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint) UnsafeInc() uint {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Uint) UnsafeSub(value uint) uint {
+	p.value -= value
 	return p.value
 }
 
@@ -800,9 +976,7 @@ func (p *Uint8) Dec() uint8 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -810,9 +984,7 @@ func (p *Uint8) Inc() uint8 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -822,6 +994,32 @@ func (p *Uint8) Sub(value uint8) uint8 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Uint8) UnsafeAdd(value uint8) uint8 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint8) UnsafeDec() uint8 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint8) UnsafeInc() uint8 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Uint8) UnsafeSub(value uint8) uint8 {
+	p.value -= value
 	return p.value
 }
 
@@ -882,9 +1080,7 @@ func (p *Uint16) Dec() uint16 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -892,9 +1088,7 @@ func (p *Uint16) Inc() uint16 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -904,6 +1098,32 @@ func (p *Uint16) Sub(value uint16) uint16 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Uint16) UnsafeAdd(value uint16) uint16 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint16) UnsafeDec() uint16 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint16) UnsafeInc() uint16 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Uint16) UnsafeSub(value uint16) uint16 {
+	p.value -= value
 	return p.value
 }
 
@@ -964,9 +1184,7 @@ func (p *Uint32) Dec() uint32 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -974,9 +1192,7 @@ func (p *Uint32) Inc() uint32 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -986,6 +1202,32 @@ func (p *Uint32) Sub(value uint32) uint32 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Uint32) UnsafeAdd(value uint32) uint32 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint32) UnsafeDec() uint32 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint32) UnsafeInc() uint32 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Uint32) UnsafeSub(value uint32) uint32 {
+	p.value -= value
 	return p.value
 }
 
@@ -1046,9 +1288,7 @@ func (p *Uint64) Dec() uint64 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value--
-
-	return p.value
+	return p.UnsafeSub(1)
 }
 
 // Inc will increment the current value by 1 and return the new value.
@@ -1056,9 +1296,7 @@ func (p *Uint64) Inc() uint64 {
 	p.Lock()
 	defer p.Unlock()
 
-	p.value++
-
-	return p.value
+	return p.UnsafeAdd(1)
 }
 
 // Sub will subtract the value and return the new value.
@@ -1068,5 +1306,31 @@ func (p *Uint64) Sub(value uint64) uint64 {
 
 	p.value -= value
 
+	return p.value
+}
+
+// UnsafeAdd will add the value and return the new value, with no
+// Lock.
+func (p *Uint64) UnsafeAdd(value uint64) uint64 {
+	p.value += value
+	return p.value
+}
+
+// UnsafeDec will decrement the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint64) UnsafeDec() uint64 {
+	return p.UnsafeSub(1)
+}
+
+// UnsafeInc will increment the current value by 1 and return the new
+// value, with no Lock.
+func (p *Uint64) UnsafeInc() uint64 {
+	return p.UnsafeAdd(1)
+}
+
+// UnsafeSub will subtract the value and return the new value, with no
+// Lock.
+func (p *Uint64) UnsafeSub(value uint64) uint64 {
+	p.value -= value
 	return p.value
 }
