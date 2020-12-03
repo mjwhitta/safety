@@ -14,21 +14,6 @@ func NewBool() *Bool {
 	return &Bool{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Bool) EqualSet(expected, newval bool) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Bool) Get() bool {
 	p.RLock()
@@ -37,27 +22,47 @@ func (p *Bool) Get() bool {
 	return p.value
 }
 
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Bool) NotEqualSet(expected, newval bool) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Bool) Set(val bool) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Bool) UnsafeSet(val bool) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Bool) EqualSet(expected bool, val bool) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Bool) NotEqualSet(expected bool, val bool) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
 }
 
 // Float32 is a thread-safe float32 implementation.
@@ -71,21 +76,6 @@ func NewFloat32() *Float32 {
 	return &Float32{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Float32) EqualSet(expected, newval float32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Float32) Get() float32 {
 	p.RLock()
@@ -94,87 +84,317 @@ func (p *Float32) Get() float32 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Float32) GreaterSet(expected, newval float32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Float32) GreaterEqualSet(expected, newval float32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Float32) LesserSet(expected, newval float32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Float32) LesserEqualSet(expected, newval float32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Float32) NotEqualSet(expected, newval float32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Float32) Set(val float32) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Float32) UnsafeSet(val float32) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) EqualSet(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) NotEqualSet(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterEqualSet(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessEqualSet(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterAdd(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterEqualAdd(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessAdd(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessEqualAdd(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterDec(expected float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterEqualDec(expected float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessDec(expected float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessEqualDec(expected float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterInc(expected float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterEqualInc(expected float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessInc(expected float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessEqualInc(expected float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterSub(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) GreaterEqualSub(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessSub(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float32) LessEqualSub(expected float32, val float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -250,21 +470,6 @@ func NewFloat64() *Float64 {
 	return &Float64{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Float64) EqualSet(expected, newval float64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Float64) Get() float64 {
 	p.RLock()
@@ -273,87 +478,317 @@ func (p *Float64) Get() float64 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Float64) GreaterSet(expected, newval float64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Float64) GreaterEqualSet(expected, newval float64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Float64) LesserSet(expected, newval float64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Float64) LesserEqualSet(expected, newval float64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Float64) NotEqualSet(expected, newval float64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Float64) Set(val float64) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Float64) UnsafeSet(val float64) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) EqualSet(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) NotEqualSet(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterEqualSet(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessEqualSet(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterAdd(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterEqualAdd(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessAdd(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessEqualAdd(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterDec(expected float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterEqualDec(expected float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessDec(expected float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessEqualDec(expected float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterInc(expected float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterEqualInc(expected float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessInc(expected float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessEqualInc(expected float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterSub(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) GreaterEqualSub(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessSub(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Float64) LessEqualSub(expected float64, val float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -429,21 +864,6 @@ func NewInt() *Int {
 	return &Int{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int) EqualSet(expected, newval int) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Int) Get() int {
 	p.RLock()
@@ -452,87 +872,317 @@ func (p *Int) Get() int {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int) GreaterSet(expected, newval int) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int) GreaterEqualSet(expected, newval int) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int) LesserSet(expected, newval int) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int) LesserEqualSet(expected, newval int) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int) NotEqualSet(expected, newval int) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Int) Set(val int) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Int) UnsafeSet(val int) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) EqualSet(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) NotEqualSet(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterEqualSet(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessEqualSet(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterAdd(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterEqualAdd(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessAdd(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessEqualAdd(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterDec(expected int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterEqualDec(expected int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessDec(expected int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessEqualDec(expected int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterInc(expected int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterEqualInc(expected int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessInc(expected int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessEqualInc(expected int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterSub(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) GreaterEqualSub(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessSub(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int) LessEqualSub(expected int, val int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -608,21 +1258,6 @@ func NewInt8() *Int8 {
 	return &Int8{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int8) EqualSet(expected, newval int8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Int8) Get() int8 {
 	p.RLock()
@@ -631,87 +1266,317 @@ func (p *Int8) Get() int8 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int8) GreaterSet(expected, newval int8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int8) GreaterEqualSet(expected, newval int8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int8) LesserSet(expected, newval int8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int8) LesserEqualSet(expected, newval int8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int8) NotEqualSet(expected, newval int8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Int8) Set(val int8) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Int8) UnsafeSet(val int8) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) EqualSet(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) NotEqualSet(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterEqualSet(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessEqualSet(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterAdd(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterEqualAdd(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessAdd(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessEqualAdd(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterDec(expected int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterEqualDec(expected int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessDec(expected int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessEqualDec(expected int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterInc(expected int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterEqualInc(expected int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessInc(expected int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessEqualInc(expected int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterSub(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) GreaterEqualSub(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessSub(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int8) LessEqualSub(expected int8, val int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -787,21 +1652,6 @@ func NewInt16() *Int16 {
 	return &Int16{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int16) EqualSet(expected, newval int16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Int16) Get() int16 {
 	p.RLock()
@@ -810,87 +1660,317 @@ func (p *Int16) Get() int16 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int16) GreaterSet(expected, newval int16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int16) GreaterEqualSet(expected, newval int16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int16) LesserSet(expected, newval int16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int16) LesserEqualSet(expected, newval int16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int16) NotEqualSet(expected, newval int16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Int16) Set(val int16) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Int16) UnsafeSet(val int16) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) EqualSet(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) NotEqualSet(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterEqualSet(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessEqualSet(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterAdd(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterEqualAdd(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessAdd(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessEqualAdd(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterDec(expected int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterEqualDec(expected int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessDec(expected int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessEqualDec(expected int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterInc(expected int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterEqualInc(expected int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessInc(expected int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessEqualInc(expected int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterSub(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) GreaterEqualSub(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessSub(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int16) LessEqualSub(expected int16, val int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -966,21 +2046,6 @@ func NewInt32() *Int32 {
 	return &Int32{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int32) EqualSet(expected, newval int32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Int32) Get() int32 {
 	p.RLock()
@@ -989,87 +2054,317 @@ func (p *Int32) Get() int32 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int32) GreaterSet(expected, newval int32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int32) GreaterEqualSet(expected, newval int32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int32) LesserSet(expected, newval int32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int32) LesserEqualSet(expected, newval int32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int32) NotEqualSet(expected, newval int32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Int32) Set(val int32) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Int32) UnsafeSet(val int32) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) EqualSet(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) NotEqualSet(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterEqualSet(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessEqualSet(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterAdd(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterEqualAdd(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessAdd(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessEqualAdd(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterDec(expected int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterEqualDec(expected int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessDec(expected int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessEqualDec(expected int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterInc(expected int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterEqualInc(expected int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessInc(expected int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessEqualInc(expected int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterSub(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) GreaterEqualSub(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessSub(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int32) LessEqualSub(expected int32, val int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -1145,21 +2440,6 @@ func NewInt64() *Int64 {
 	return &Int64{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int64) EqualSet(expected, newval int64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Int64) Get() int64 {
 	p.RLock()
@@ -1168,87 +2448,317 @@ func (p *Int64) Get() int64 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int64) GreaterSet(expected, newval int64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int64) GreaterEqualSet(expected, newval int64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int64) LesserSet(expected, newval int64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Int64) LesserEqualSet(expected, newval int64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Int64) NotEqualSet(expected, newval int64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Int64) Set(val int64) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Int64) UnsafeSet(val int64) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) EqualSet(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) NotEqualSet(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterEqualSet(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessEqualSet(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterAdd(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterEqualAdd(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessAdd(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessEqualAdd(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterDec(expected int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterEqualDec(expected int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessDec(expected int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessEqualDec(expected int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterInc(expected int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterEqualInc(expected int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessInc(expected int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessEqualInc(expected int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterSub(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) GreaterEqualSub(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessSub(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Int64) LessEqualSub(expected int64, val int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -1324,21 +2834,6 @@ func NewString() *String {
 	return &String{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *String) EqualSet(expected, newval string) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *String) Get() string {
 	p.RLock()
@@ -1347,87 +2842,77 @@ func (p *String) Get() string {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *String) GreaterSet(expected, newval string) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *String) GreaterEqualSet(expected, newval string) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *String) LesserSet(expected, newval string) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *String) LesserEqualSet(expected, newval string) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *String) NotEqualSet(expected, newval string) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *String) Set(val string) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *String) UnsafeSet(val string) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *String) EqualSet(expected string, val string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *String) NotEqualSet(expected string, val string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *String) GreaterEqualSet(expected string, val string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *String) LessEqualSet(expected string, val string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
 }
 
 // Uint is a thread-safe uint implementation.
@@ -1441,21 +2926,6 @@ func NewUint() *Uint {
 	return &Uint{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint) EqualSet(expected, newval uint) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Uint) Get() uint {
 	p.RLock()
@@ -1464,87 +2934,317 @@ func (p *Uint) Get() uint {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint) GreaterSet(expected, newval uint) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint) GreaterEqualSet(expected, newval uint) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint) LesserSet(expected, newval uint) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint) LesserEqualSet(expected, newval uint) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint) NotEqualSet(expected, newval uint) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Uint) Set(val uint) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Uint) UnsafeSet(val uint) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) EqualSet(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) NotEqualSet(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterEqualSet(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessEqualSet(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterAdd(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterEqualAdd(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessAdd(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessEqualAdd(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterDec(expected uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterEqualDec(expected uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessDec(expected uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessEqualDec(expected uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterInc(expected uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterEqualInc(expected uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessInc(expected uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessEqualInc(expected uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterSub(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) GreaterEqualSub(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessSub(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint) LessEqualSub(expected uint, val uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -1620,21 +3320,6 @@ func NewUint8() *Uint8 {
 	return &Uint8{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint8) EqualSet(expected, newval uint8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Uint8) Get() uint8 {
 	p.RLock()
@@ -1643,87 +3328,317 @@ func (p *Uint8) Get() uint8 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint8) GreaterSet(expected, newval uint8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint8) GreaterEqualSet(expected, newval uint8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint8) LesserSet(expected, newval uint8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint8) LesserEqualSet(expected, newval uint8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint8) NotEqualSet(expected, newval uint8) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Uint8) Set(val uint8) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Uint8) UnsafeSet(val uint8) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) EqualSet(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) NotEqualSet(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterEqualSet(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessEqualSet(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterAdd(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterEqualAdd(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessAdd(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessEqualAdd(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterDec(expected uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterEqualDec(expected uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessDec(expected uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessEqualDec(expected uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterInc(expected uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterEqualInc(expected uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessInc(expected uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessEqualInc(expected uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterSub(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) GreaterEqualSub(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessSub(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint8) LessEqualSub(expected uint8, val uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -1799,21 +3714,6 @@ func NewUint16() *Uint16 {
 	return &Uint16{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint16) EqualSet(expected, newval uint16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Uint16) Get() uint16 {
 	p.RLock()
@@ -1822,87 +3722,317 @@ func (p *Uint16) Get() uint16 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint16) GreaterSet(expected, newval uint16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint16) GreaterEqualSet(expected, newval uint16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint16) LesserSet(expected, newval uint16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint16) LesserEqualSet(expected, newval uint16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint16) NotEqualSet(expected, newval uint16) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Uint16) Set(val uint16) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Uint16) UnsafeSet(val uint16) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) EqualSet(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) NotEqualSet(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterEqualSet(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessEqualSet(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterAdd(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterEqualAdd(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessAdd(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessEqualAdd(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterDec(expected uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterEqualDec(expected uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessDec(expected uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessEqualDec(expected uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterInc(expected uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterEqualInc(expected uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessInc(expected uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessEqualInc(expected uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterSub(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) GreaterEqualSub(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessSub(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint16) LessEqualSub(expected uint16, val uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -1978,21 +4108,6 @@ func NewUint32() *Uint32 {
 	return &Uint32{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint32) EqualSet(expected, newval uint32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Uint32) Get() uint32 {
 	p.RLock()
@@ -2001,87 +4116,317 @@ func (p *Uint32) Get() uint32 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint32) GreaterSet(expected, newval uint32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint32) GreaterEqualSet(expected, newval uint32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint32) LesserSet(expected, newval uint32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint32) LesserEqualSet(expected, newval uint32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint32) NotEqualSet(expected, newval uint32) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Uint32) Set(val uint32) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Uint32) UnsafeSet(val uint32) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) EqualSet(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) NotEqualSet(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterEqualSet(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessEqualSet(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterAdd(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterEqualAdd(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessAdd(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessEqualAdd(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterDec(expected uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterEqualDec(expected uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessDec(expected uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessEqualDec(expected uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterInc(expected uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterEqualInc(expected uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessInc(expected uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessEqualInc(expected uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterSub(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) GreaterEqualSub(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessSub(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint32) LessEqualSub(expected uint32, val uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.
@@ -2157,21 +4502,6 @@ func NewUint64() *Uint64 {
 	return &Uint64{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint64) EqualSet(expected, newval uint64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value == expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Get will return the current value.
 func (p *Uint64) Get() uint64 {
 	p.RLock()
@@ -2180,87 +4510,317 @@ func (p *Uint64) Get() uint64 {
 	return p.value
 }
 
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint64) GreaterSet(expected, newval uint64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value > expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint64) GreaterEqualSet(expected, newval uint64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value >= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint64) LesserSet(expected, newval uint64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value < expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *Uint64) LesserEqualSet(expected, newval uint64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value <= expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *Uint64) NotEqualSet(expected, newval uint64) bool {
-	p.Lock()
-	defer p.Unlock()
-
-	if p.value != expected {
-		p.value = newval
-		return true
-	}
-
-	return false
-}
-
 // Set will set the current value.
 func (p *Uint64) Set(val uint64) {
 	p.Lock()
 	defer p.Unlock()
 
 	p.value = val
+}
+
+// UnsafeSet will set the current value, with no Lock.
+func (p *Uint64) UnsafeSet(val uint64) {
+	p.value = val
+}
+
+// EqualSet will check if the value is == the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) EqualSet(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value == expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value is != the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) NotEqualSet(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterEqualSet(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSet will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessEqualSet(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSet(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterAdd will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterAdd(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualAdd will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterEqualAdd(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessAdd will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessAdd(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualAdd will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessEqualAdd(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeAdd(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterDec will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterDec(expected uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualDec will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterEqualDec(expected uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessDec will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessDec(expected uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualDec will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessEqualDec(expected uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeDec()
+		return true
+	}
+
+	return false
+}
+
+// GreaterInc will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterInc(expected uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualInc will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterEqualInc(expected uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessInc will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessInc(expected uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// LessEqualInc will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessEqualInc(expected uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeInc()
+		return true
+	}
+
+	return false
+}
+
+// GreaterSub will check if the value is > the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterSub(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSub will check if the value is >= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) GreaterEqualSub(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessSub will check if the value is < the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessSub(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
+}
+
+// LessEqualSub will check if the value is <= the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *Uint64) LessEqualSub(expected uint64, val uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.UnsafeSub(val)
+		return true
+	}
+
+	return false
 }
 
 // Add will add the value and return the new value.

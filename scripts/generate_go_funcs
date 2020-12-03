@@ -23,7 +23,49 @@ subinfo() { echo -e "${color:+\e[36m}[=] $*\e[0m"; }
 warn() { echo -e "${color:+\e[33m}[-] $*\e[0m"; }
 ### Helpers end
 
+generate_comp_funcs() {
+    local comp
+    local decl
+    local param
+    local sym="$2"
+
+    case "$1" in
+        "Add"|"Set"|"Sub")
+            decl=", val $thetype"
+            param="val"
+            ;;
+    esac
+
+    case "$sym" in
+        "==") comp="Equal" ;;
+        ">") comp="Greater" ;;
+        ">=") comp="GreaterEqual" ;;
+        "!=") comp="NotEqual" ;;
+        "<") comp="Less" ;;
+        "<=") comp="LessEqual" ;;
+    esac
+
+    cat <<EOF
+// ${comp^}$1 will check if the value is $sym the expected value. If
+// it is, it will call the appropriate function and return true,
+// otherwise it will simply return false.
+func (p *${thetype^}) ${comp^}$1(expected $thetype$decl) bool {
+	p.Lock()
+	defer p.Unlock()
+
+    if p.value $sym expected {
+        p.Unsafe$1($param)
+        return true
+    }
+
+    return false
+}
+
+EOF
+}
+
 generate_type_funcs() {
+    local op
     local thetype="$1"
 
     cat <<EOF
@@ -38,112 +80,12 @@ func New${thetype^}() *${thetype^} {
 	return &${thetype^}{}
 }
 
-// EqualSet will check if the value matches the provided value. If it
-// matches, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *${thetype^}) EqualSet(expected, newval $thetype) bool {
-	p.Lock()
-	defer p.Unlock()
-
-    if p.value == expected {
-        p.value = newval
-        return true
-    }
-
-    return false
-}
-
 // Get will return the current value.
 func (p *${thetype^}) Get() $thetype {
 	p.RLock()
 	defer p.RUnlock()
 
     return p.value
-}
-
-$(
-    case "$thetype" in
-        "bool") ;;
-        *)
-            cat <<EOS
-
-// GreaterSet will check if the value is > the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *${thetype^}) GreaterSet(expected, newval $thetype) bool {
-	p.Lock()
-	defer p.Unlock()
-
-    if p.value > expected {
-        p.value = newval
-        return true
-    }
-
-    return false
-}
-
-// GreaterEqualSet will check if the value is >= the provided value.
-// If it is, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *${thetype^}) GreaterEqualSet(expected, newval $thetype) bool {
-	p.Lock()
-	defer p.Unlock()
-
-    if p.value >= expected {
-        p.value = newval
-        return true
-    }
-
-    return false
-}
-
-// LesserSet will check if the value is < the provided value. If it
-// is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *${thetype^}) LesserSet(expected, newval $thetype) bool {
-	p.Lock()
-	defer p.Unlock()
-
-    if p.value < expected {
-        p.value = newval
-        return true
-    }
-
-    return false
-}
-
-// LesserEqualSet will check if the value is >= the provided value. If
-// it is, it will set a new value and return true, otherwise it will
-// simply return false.
-func (p *${thetype^}) LesserEqualSet(expected, newval $thetype) bool {
-	p.Lock()
-	defer p.Unlock()
-
-    if p.value <= expected {
-        p.value = newval
-        return true
-    }
-
-    return false
-}
-EOS
-            ;;
-    esac
-)
-
-// NotEqualSet will check if the value matches the provided value. If
-// it doesn't, it will set a new value and return true, otherwise it
-// will simply return false.
-func (p *${thetype^}) NotEqualSet(expected, newval $thetype) bool {
-	p.Lock()
-	defer p.Unlock()
-
-    if p.value != expected {
-        p.value = newval
-        return true
-    }
-
-    return false
 }
 
 // Set will set the current value.
@@ -154,10 +96,33 @@ func (p *${thetype^}) Set(val $thetype) {
     p.value = val
 }
 
-$(
+// UnsafeSet will set the current value, with no Lock.
+func (p *${thetype^}) UnsafeSet(val $thetype) {
+    p.value = val
+}
+
+EOF
+
+    generate_comp_funcs "Set" "=="
+    generate_comp_funcs "Set" "!="
+
+    case "$thetype" in
+        "bool") return ;;
+    esac
+
+    generate_comp_funcs "Set" ">="
+    generate_comp_funcs "Set" "<="
+
     case "$thetype" in
         "float"*|*"int"*)
-            cat <<EOS
+            for op in Add Dec Inc Sub; do
+                generate_comp_funcs "$op" ">"
+                generate_comp_funcs "$op" ">="
+                generate_comp_funcs "$op" "<"
+                generate_comp_funcs "$op" "<="
+            done; unset op
+
+            cat <<EOF
 // Add will add the value and return the new value.
 func (p *${thetype^}) Add(value $thetype) $thetype {
 	p.Lock()
@@ -219,11 +184,9 @@ func (p *${thetype^}) UnsafeSub(value $thetype) $thetype {
     p.value -= value
     return p.value
 }
-EOS
+EOF
             ;;
     esac
-)
-EOF
 }
 
 usage() {
