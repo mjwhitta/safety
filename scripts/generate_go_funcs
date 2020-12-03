@@ -38,10 +38,10 @@ func New${thetype^}() *${thetype^} {
 	return &${thetype^}{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *${thetype^}) CheckSet(expected, newval $thetype) bool {
+func (p *${thetype^}) EqualSet(expected, newval $thetype) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -59,6 +59,91 @@ func (p *${thetype^}) Get() $thetype {
 	defer p.RUnlock()
 
     return p.value
+}
+
+$(
+    case "$thetype" in
+        "bool") ;;
+        *)
+            cat <<EOS
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *${thetype^}) GreaterSet(expected, newval $thetype) bool {
+	p.Lock()
+	defer p.Unlock()
+
+    if p.value > expected {
+        p.value = newval
+        return true
+    }
+
+    return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *${thetype^}) GreaterEqualSet(expected, newval $thetype) bool {
+	p.Lock()
+	defer p.Unlock()
+
+    if p.value >= expected {
+        p.value = newval
+        return true
+    }
+
+    return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *${thetype^}) LesserSet(expected, newval $thetype) bool {
+	p.Lock()
+	defer p.Unlock()
+
+    if p.value < expected {
+        p.value = newval
+        return true
+    }
+
+    return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *${thetype^}) LesserEqualSet(expected, newval $thetype) bool {
+	p.Lock()
+	defer p.Unlock()
+
+    if p.value <= expected {
+        p.value = newval
+        return true
+    }
+
+    return false
+}
+EOS
+            ;;
+    esac
+)
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *${thetype^}) NotEqualSet(expected, newval $thetype) bool {
+	p.Lock()
+	defer p.Unlock()
+
+    if p.value != expected {
+        p.value = newval
+        return true
+    }
+
+    return false
 }
 
 // Set will set the current value.

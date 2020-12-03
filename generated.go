@@ -14,10 +14,10 @@ func NewBool() *Bool {
 	return &Bool{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Bool) CheckSet(expected, newval bool) bool {
+func (p *Bool) EqualSet(expected, newval bool) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -35,6 +35,21 @@ func (p *Bool) Get() bool {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Bool) NotEqualSet(expected, newval bool) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -56,10 +71,10 @@ func NewFloat32() *Float32 {
 	return &Float32{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Float32) CheckSet(expected, newval float32) bool {
+func (p *Float32) EqualSet(expected, newval float32) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -77,6 +92,81 @@ func (p *Float32) Get() float32 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Float32) GreaterSet(expected, newval float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Float32) GreaterEqualSet(expected, newval float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Float32) LesserSet(expected, newval float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Float32) LesserEqualSet(expected, newval float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Float32) NotEqualSet(expected, newval float32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -160,10 +250,10 @@ func NewFloat64() *Float64 {
 	return &Float64{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Float64) CheckSet(expected, newval float64) bool {
+func (p *Float64) EqualSet(expected, newval float64) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -181,6 +271,81 @@ func (p *Float64) Get() float64 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Float64) GreaterSet(expected, newval float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Float64) GreaterEqualSet(expected, newval float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Float64) LesserSet(expected, newval float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Float64) LesserEqualSet(expected, newval float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Float64) NotEqualSet(expected, newval float64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -264,10 +429,10 @@ func NewInt() *Int {
 	return &Int{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Int) CheckSet(expected, newval int) bool {
+func (p *Int) EqualSet(expected, newval int) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -285,6 +450,81 @@ func (p *Int) Get() int {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int) GreaterSet(expected, newval int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int) GreaterEqualSet(expected, newval int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int) LesserSet(expected, newval int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int) LesserEqualSet(expected, newval int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int) NotEqualSet(expected, newval int) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -368,10 +608,10 @@ func NewInt8() *Int8 {
 	return &Int8{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Int8) CheckSet(expected, newval int8) bool {
+func (p *Int8) EqualSet(expected, newval int8) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -389,6 +629,81 @@ func (p *Int8) Get() int8 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int8) GreaterSet(expected, newval int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int8) GreaterEqualSet(expected, newval int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int8) LesserSet(expected, newval int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int8) LesserEqualSet(expected, newval int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int8) NotEqualSet(expected, newval int8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -472,10 +787,10 @@ func NewInt16() *Int16 {
 	return &Int16{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Int16) CheckSet(expected, newval int16) bool {
+func (p *Int16) EqualSet(expected, newval int16) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -493,6 +808,81 @@ func (p *Int16) Get() int16 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int16) GreaterSet(expected, newval int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int16) GreaterEqualSet(expected, newval int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int16) LesserSet(expected, newval int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int16) LesserEqualSet(expected, newval int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int16) NotEqualSet(expected, newval int16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -576,10 +966,10 @@ func NewInt32() *Int32 {
 	return &Int32{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Int32) CheckSet(expected, newval int32) bool {
+func (p *Int32) EqualSet(expected, newval int32) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -597,6 +987,81 @@ func (p *Int32) Get() int32 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int32) GreaterSet(expected, newval int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int32) GreaterEqualSet(expected, newval int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int32) LesserSet(expected, newval int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int32) LesserEqualSet(expected, newval int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int32) NotEqualSet(expected, newval int32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -680,10 +1145,10 @@ func NewInt64() *Int64 {
 	return &Int64{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Int64) CheckSet(expected, newval int64) bool {
+func (p *Int64) EqualSet(expected, newval int64) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -701,6 +1166,81 @@ func (p *Int64) Get() int64 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int64) GreaterSet(expected, newval int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int64) GreaterEqualSet(expected, newval int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int64) LesserSet(expected, newval int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Int64) LesserEqualSet(expected, newval int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Int64) NotEqualSet(expected, newval int64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -784,10 +1324,10 @@ func NewString() *String {
 	return &String{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *String) CheckSet(expected, newval string) bool {
+func (p *String) EqualSet(expected, newval string) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -805,6 +1345,81 @@ func (p *String) Get() string {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *String) GreaterSet(expected, newval string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *String) GreaterEqualSet(expected, newval string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *String) LesserSet(expected, newval string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *String) LesserEqualSet(expected, newval string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *String) NotEqualSet(expected, newval string) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -826,10 +1441,10 @@ func NewUint() *Uint {
 	return &Uint{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Uint) CheckSet(expected, newval uint) bool {
+func (p *Uint) EqualSet(expected, newval uint) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -847,6 +1462,81 @@ func (p *Uint) Get() uint {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint) GreaterSet(expected, newval uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint) GreaterEqualSet(expected, newval uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint) LesserSet(expected, newval uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint) LesserEqualSet(expected, newval uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint) NotEqualSet(expected, newval uint) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -930,10 +1620,10 @@ func NewUint8() *Uint8 {
 	return &Uint8{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Uint8) CheckSet(expected, newval uint8) bool {
+func (p *Uint8) EqualSet(expected, newval uint8) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -951,6 +1641,81 @@ func (p *Uint8) Get() uint8 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint8) GreaterSet(expected, newval uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint8) GreaterEqualSet(expected, newval uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint8) LesserSet(expected, newval uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint8) LesserEqualSet(expected, newval uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint8) NotEqualSet(expected, newval uint8) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -1034,10 +1799,10 @@ func NewUint16() *Uint16 {
 	return &Uint16{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Uint16) CheckSet(expected, newval uint16) bool {
+func (p *Uint16) EqualSet(expected, newval uint16) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -1055,6 +1820,81 @@ func (p *Uint16) Get() uint16 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint16) GreaterSet(expected, newval uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint16) GreaterEqualSet(expected, newval uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint16) LesserSet(expected, newval uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint16) LesserEqualSet(expected, newval uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint16) NotEqualSet(expected, newval uint16) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -1138,10 +1978,10 @@ func NewUint32() *Uint32 {
 	return &Uint32{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Uint32) CheckSet(expected, newval uint32) bool {
+func (p *Uint32) EqualSet(expected, newval uint32) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -1159,6 +1999,81 @@ func (p *Uint32) Get() uint32 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint32) GreaterSet(expected, newval uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint32) GreaterEqualSet(expected, newval uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint32) LesserSet(expected, newval uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint32) LesserEqualSet(expected, newval uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint32) NotEqualSet(expected, newval uint32) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
@@ -1242,10 +2157,10 @@ func NewUint64() *Uint64 {
 	return &Uint64{}
 }
 
-// CheckSet will check if the value matches the provided value. If it
+// EqualSet will check if the value matches the provided value. If it
 // matches, it will set a new value and return true, otherwise it will
 // simply return false.
-func (p *Uint64) CheckSet(expected, newval uint64) bool {
+func (p *Uint64) EqualSet(expected, newval uint64) bool {
 	p.Lock()
 	defer p.Unlock()
 
@@ -1263,6 +2178,81 @@ func (p *Uint64) Get() uint64 {
 	defer p.RUnlock()
 
 	return p.value
+}
+
+// GreaterSet will check if the value is > the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint64) GreaterSet(expected, newval uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value > expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// GreaterEqualSet will check if the value is >= the provided value.
+// If it is, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint64) GreaterEqualSet(expected, newval uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value >= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserSet will check if the value is < the provided value. If it
+// is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint64) LesserSet(expected, newval uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value < expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// LesserEqualSet will check if the value is >= the provided value. If
+// it is, it will set a new value and return true, otherwise it will
+// simply return false.
+func (p *Uint64) LesserEqualSet(expected, newval uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value <= expected {
+		p.value = newval
+		return true
+	}
+
+	return false
+}
+
+// NotEqualSet will check if the value matches the provided value. If
+// it doesn't, it will set a new value and return true, otherwise it
+// will simply return false.
+func (p *Uint64) NotEqualSet(expected, newval uint64) bool {
+	p.Lock()
+	defer p.Unlock()
+
+	if p.value != expected {
+		p.value = newval
+		return true
+	}
+
+	return false
 }
 
 // Set will set the current value.
