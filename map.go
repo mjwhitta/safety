@@ -63,12 +63,23 @@ func (m *Map) Keys() (keys []interface{}) {
 	return
 }
 
-// Put will put a new entry into the map.
+// Put will store a key/value pair.
 func (m *Map) Put(k interface{}, v interface{}) {
 	m.Lock()
 	defer m.Unlock()
 
 	m.themap[k] = v
+}
+
+// PutIfNew will store a key/value pair, so long as the key doesn't
+// already exist.
+func (m *Map) PutIfNew(k interface{}, v interface{}) {
+	m.Lock()
+	defer m.Unlock()
+
+	if _, ok := m.themap[k]; !ok {
+		m.themap[k] = v
+	}
 }
 
 // Range will loop over the map and run the specified function for
