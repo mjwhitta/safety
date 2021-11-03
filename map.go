@@ -73,13 +73,16 @@ func (m *Map) Put(k interface{}, v interface{}) {
 
 // PutIfNew will store a key/value pair, so long as the key doesn't
 // already exist.
-func (m *Map) PutIfNew(k interface{}, v interface{}) {
+func (m *Map) PutIfNew(k interface{}, v interface{}) bool {
 	m.Lock()
 	defer m.Unlock()
 
 	if _, ok := m.themap[k]; !ok {
 		m.themap[k] = v
+		return true
 	}
+
+	return false
 }
 
 // Range will loop over the map and run the specified function for
