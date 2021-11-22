@@ -27,11 +27,12 @@ func (m *Map) Clear() {
 
 // Delete will delete a map entry and return the deleted entry.
 func (m *Map) Delete(k interface{}) (v interface{}) {
+	var ok bool
+
 	m.Lock()
 	defer m.Unlock()
 
-	if _, ok := m.themap[k]; ok {
-		v = m.themap[k]
+	if v, ok = m.themap[k]; ok {
 		delete(m.themap, k)
 	}
 
@@ -43,9 +44,7 @@ func (m *Map) Get(k interface{}) (v interface{}, ok bool) {
 	m.RLock()
 	defer m.RUnlock()
 
-	if _, ok = m.themap[k]; ok {
-		v = m.themap[k]
-	}
+	v, ok = m.themap[k]
 
 	return
 }
