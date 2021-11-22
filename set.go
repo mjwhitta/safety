@@ -34,13 +34,11 @@ func (m *Set) Clear() {
 }
 
 // Delete will delete a set entry.
-func (m *Set) Delete(entry interface{}) (v interface{}) {
-	var ok bool
-
+func (m *Set) Delete(entry interface{}) (ok bool) {
 	m.Lock()
 	defer m.Unlock()
 
-	if v, ok = m.set[entry]; ok {
+	if _, ok = m.set[entry]; ok {
 		delete(m.set, entry)
 	}
 
