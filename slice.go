@@ -84,7 +84,7 @@ func (a *Slice) Range(f func(idx int, val interface{}) bool) {
 // RangeChange will loop over the slice and run the specified function
 // for each entry, storing the first return value as the new entry
 // value. The second return value determines whether or not to break
-// the loop. You should not add or delete entries within RangeUpdate,
+// the loop. You should not add or delete entries within RangeChange,
 // and you should avoid calling other Slice functions or you may cause
 // deadlock. Range should be safe to nest for any read operations.
 func (a *Slice) RangeChange(
