@@ -2,7 +2,7 @@
 
 <a href="https://www.buymeacoffee.com/mjwhitta">🍪 Buy me a cookie</a>
 
-[![Go Report Card](https://goreportcard.com/badge/gitlab.com/mjwhitta/safety)](https://goreportcard.com/report/gitlab.com/mjwhitta/safety)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mjwhitta/safety)](https://goreportcard.com/report/github.com/mjwhitta/safety)
 
 ## What is this?
 
@@ -13,7 +13,7 @@ This Go module provides some thread-safe utilities.
 Open a terminal and run the following:
 
 ```
-$ go get --ldflags="-s -w" --trimpath -u gitlab.com/mjwhitta/safety
+$ go get --ldflags="-s -w" --trimpath -u github.com/mjwhitta/safety
 ```
 
 ## Usage
@@ -22,8 +22,8 @@ $ go get --ldflags="-s -w" --trimpath -u gitlab.com/mjwhitta/safety
 package main
 
 import (
-    hl "gitlab.com/mjwhitta/hilighter"
-    "gitlab.com/mjwhitta/safety"
+    hl "github.com/mjwhitta/hilighter"
+    "github.com/mjwhitta/safety"
 )
 
 func main() {
@@ -95,4 +95,4 @@ func main() {
 
 ## Links
 
-- [Source](https://gitlab.com/mjwhitta/safety)
+- [Source](https://github.com/mjwhitta/safety)

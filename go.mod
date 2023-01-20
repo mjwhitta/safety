@@ -1,3 +1,3 @@
-module gitlab.com/mjwhitta/safety
+module github.com/mjwhitta/safety
 
-go 1.17
+go 1.19
