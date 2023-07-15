@@ -39,7 +39,7 @@ func main() {
     m.Put("t", "test")
 
     m.Range(
-        func(k, v interface{}) bool {
+        func(k, v any) bool {
             switch v.(string) {
             case "stop":
                 return true
@@ -59,7 +59,7 @@ func main() {
     s.Add("test")
 
     s.Range(
-        func(entry interface{}) bool {
+        func(entry any) bool {
             switch entry.(string) {
             case "stop":
                 return true
@@ -79,7 +79,7 @@ func main() {
     sl.Append("test")
 
     sl.Range(
-        func(i int, v interface{}) bool {
+        func(i int, v any) bool {
             switch v.(string) {
             case "stop":
                 return true

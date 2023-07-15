@@ -2,16 +2,16 @@ package safety
 
 import "sync"
 
-// Map is a thread-safe map[interface{}]interface{} implementation.
+// Map is a thread-safe map[any]any implementation.
 type Map struct {
 	sync.RWMutex
-	themap map[interface{}]interface{}
+	themap map[any]any
 }
 
 // NewMap will return a pointer to a new Map instance.
 func NewMap() *Map {
 	return &Map{
-		themap: map[interface{}]interface{}{},
+		themap: map[any]any{},
 	}
 }
 
@@ -26,7 +26,7 @@ func (m *Map) Clear() {
 }
 
 // Delete will delete a map entry and return the deleted entry.
-func (m *Map) Delete(k interface{}) (v interface{}) {
+func (m *Map) Delete(k any) (v any) {
 	var ok bool
 
 	m.Lock()
@@ -40,7 +40,7 @@ func (m *Map) Delete(k interface{}) (v interface{}) {
 }
 
 // Get will return a map entry.
-func (m *Map) Get(k interface{}) (v interface{}, ok bool) {
+func (m *Map) Get(k any) (v any, ok bool) {
 	m.RLock()
 	defer m.RUnlock()
 
@@ -51,7 +51,7 @@ func (m *Map) Get(k interface{}) (v interface{}, ok bool) {
 
 // Keys will return a snapshot of the valid keys. There is no
 // guarantee that the keys will remain valid for any amount of time.
-func (m *Map) Keys() (keys []interface{}) {
+func (m *Map) Keys() (keys []any) {
 	m.RLock()
 	defer m.RUnlock()
 
@@ -63,7 +63,7 @@ func (m *Map) Keys() (keys []interface{}) {
 }
 
 // Put will store a key/value pair.
-func (m *Map) Put(k interface{}, v interface{}) {
+func (m *Map) Put(k any, v any) {
 	m.Lock()
 	defer m.Unlock()
 
@@ -72,7 +72,7 @@ func (m *Map) Put(k interface{}, v interface{}) {
 
 // PutIfNew will store a key/value pair, so long as the key doesn't
 // already exist.
-func (m *Map) PutIfNew(k interface{}, v interface{}) bool {
+func (m *Map) PutIfNew(k any, v any) bool {
 	m.Lock()
 	defer m.Unlock()
 
@@ -89,7 +89,7 @@ func (m *Map) PutIfNew(k interface{}, v interface{}) bool {
 // loop. You should not add or delete entries within Range, and you
 // should avoid calling other Map functions or you may cause deadlock.
 // Range should be safe to nest for any read operations.
-func (m *Map) Range(f func(key, val interface{}) bool) {
+func (m *Map) Range(f func(key, val any) bool) {
 	m.RLock()
 	defer m.RUnlock()
 
@@ -106,9 +106,7 @@ func (m *Map) Range(f func(key, val interface{}) bool) {
 // the loop. You should not add or delete entries within RangeChange,
 // and you should avoid calling other Map functions or you may cause
 // deadlock.
-func (m *Map) RangeChange(
-	f func(key, val interface{}) (interface{}, bool),
-) {
+func (m *Map) RangeChange(f func(key, val any) (any, bool)) {
 	var stop bool
 
 	m.Lock()

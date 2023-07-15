@@ -2,11 +2,11 @@ package safety
 
 import "sync"
 
-// Slice is a thread-safe []interface{} implementation. Order is not
+// Slice is a thread-safe []any implementation. Order is not
 // guaranteed.
 type Slice struct {
 	sync.RWMutex
-	slice []interface{}
+	slice []any
 }
 
 // NewSlice will return a pointer to a new Slice instance.
@@ -15,7 +15,7 @@ func NewSlice() *Slice {
 }
 
 // Append will append a new entry to the slice.
-func (a *Slice) Append(v interface{}) {
+func (a *Slice) Append(v any) {
 	a.Lock()
 	defer a.Unlock()
 
@@ -27,11 +27,11 @@ func (a *Slice) Clear() {
 	a.Lock()
 	defer a.Unlock()
 
-	a.slice = []interface{}{}
+	a.slice = []any{}
 }
 
 // Delete will delete a slice entry and return the deleted entry.
-func (a *Slice) Delete(i int) (v interface{}) {
+func (a *Slice) Delete(i int) (v any) {
 	a.Lock()
 	defer a.Unlock()
 
@@ -45,7 +45,7 @@ func (a *Slice) Delete(i int) (v interface{}) {
 }
 
 // Get will return a slice entry.
-func (a *Slice) Get(i int) (v interface{}) {
+func (a *Slice) Get(i int) (v any) {
 	a.RLock()
 	defer a.RUnlock()
 
@@ -70,7 +70,7 @@ func (a *Slice) Length() int {
 // loop. You should not add or delete entries within Range, and you
 // should avoid calling other Slice functions or you may cause
 // deadlock. Range should be safe to nest for any read operations.
-func (a *Slice) Range(f func(idx int, val interface{}) bool) {
+func (a *Slice) Range(f func(idx int, val any) bool) {
 	a.RLock()
 	defer a.RUnlock()
 
@@ -87,9 +87,7 @@ func (a *Slice) Range(f func(idx int, val interface{}) bool) {
 // the loop. You should not add or delete entries within RangeChange,
 // and you should avoid calling other Slice functions or you may cause
 // deadlock. Range should be safe to nest for any read operations.
-func (a *Slice) RangeChange(
-	f func(idx int, val interface{}) (interface{}, bool),
-) {
+func (a *Slice) RangeChange(f func(idx int, val any) (any, bool)) {
 	var stop bool
 
 	a.Lock()
