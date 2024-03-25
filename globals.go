@@ -1,4 +1,4 @@
 package safety
 
 // Version is the package version.
-const Version = "1.11.3"
+const Version string = "1.11.4"
