@@ -14,7 +14,7 @@ This Go module provides some thread-safe utilities.
 Open a terminal and run the following:
 
 ```
-$ go get --ldflags "-s -w" --trimpath -u github.com/mjwhitta/safety
+$ go get -u github.com/mjwhitta/safety
 ```
 
 ## Usage
