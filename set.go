@@ -5,6 +5,7 @@ import "sync"
 // Set is a thread-safe set[any]struct{} implementation.
 type Set struct {
 	sync.RWMutex
+
 	set map[any]struct{}
 }
 
@@ -42,7 +43,7 @@ func (m *Set) Delete(entry any) (ok bool) {
 		delete(m.set, entry)
 	}
 
-	return
+	return ok
 }
 
 // Get will return a snapshot of the set. There is no guarantee that
@@ -55,7 +56,7 @@ func (m *Set) Get() (entries []any) {
 		entries = append(entries, entry)
 	}
 
-	return
+	return entries
 }
 
 // Has will return whether or not the provided entry exists.
@@ -64,7 +65,8 @@ func (m *Set) Has(entry any) (ok bool) {
 	defer m.RUnlock()
 
 	_, ok = m.set[entry]
-	return
+
+	return ok
 }
 
 // Range will loop over the set and run the specified function for

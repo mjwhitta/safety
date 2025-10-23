@@ -6,6 +6,7 @@ import "sync"
 // guaranteed.
 type Slice struct {
 	sync.RWMutex
+
 	slice []any
 }
 
@@ -41,7 +42,7 @@ func (a *Slice) Delete(i int) (v any) {
 		a.slice = a.slice[:len(a.slice)-1]
 	}
 
-	return
+	return v
 }
 
 // Get will return a slice entry.
@@ -53,7 +54,7 @@ func (a *Slice) Get(i int) (v any) {
 		v = a.slice[i]
 	}
 
-	return
+	return v
 }
 
 // Length will return the length of the slice. There is no guarantee

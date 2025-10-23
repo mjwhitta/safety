@@ -80,6 +80,7 @@ generate_type_funcs() {
 // ${thetype^} is a thread-safe $thetype implementation.
 type ${thetype^} struct {
 	sync.RWMutex
+
     value $thetype
 }
 

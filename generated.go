@@ -6,6 +6,7 @@ import "sync"
 // Bool is a thread-safe bool implementation.
 type Bool struct {
 	sync.RWMutex
+
 	value bool
 }
 
@@ -68,6 +69,7 @@ func (p *Bool) NotEqualSet(expected bool, val bool) bool {
 // Float32 is a thread-safe float32 implementation.
 type Float32 struct {
 	sync.RWMutex
+
 	value float32
 }
 
@@ -462,6 +464,7 @@ func (p *Float32) UnsafeSub(value float32) float32 {
 // Float64 is a thread-safe float64 implementation.
 type Float64 struct {
 	sync.RWMutex
+
 	value float64
 }
 
@@ -856,6 +859,7 @@ func (p *Float64) UnsafeSub(value float64) float64 {
 // Int is a thread-safe int implementation.
 type Int struct {
 	sync.RWMutex
+
 	value int
 }
 
@@ -1250,6 +1254,7 @@ func (p *Int) UnsafeSub(value int) int {
 // Int8 is a thread-safe int8 implementation.
 type Int8 struct {
 	sync.RWMutex
+
 	value int8
 }
 
@@ -1644,6 +1649,7 @@ func (p *Int8) UnsafeSub(value int8) int8 {
 // Int16 is a thread-safe int16 implementation.
 type Int16 struct {
 	sync.RWMutex
+
 	value int16
 }
 
@@ -2038,6 +2044,7 @@ func (p *Int16) UnsafeSub(value int16) int16 {
 // Int32 is a thread-safe int32 implementation.
 type Int32 struct {
 	sync.RWMutex
+
 	value int32
 }
 
@@ -2432,6 +2439,7 @@ func (p *Int32) UnsafeSub(value int32) int32 {
 // Int64 is a thread-safe int64 implementation.
 type Int64 struct {
 	sync.RWMutex
+
 	value int64
 }
 
@@ -2826,6 +2834,7 @@ func (p *Int64) UnsafeSub(value int64) int64 {
 // String is a thread-safe string implementation.
 type String struct {
 	sync.RWMutex
+
 	value string
 }
 
@@ -2918,6 +2927,7 @@ func (p *String) LessEqualSet(expected string, val string) bool {
 // Uint is a thread-safe uint implementation.
 type Uint struct {
 	sync.RWMutex
+
 	value uint
 }
 
@@ -3312,6 +3322,7 @@ func (p *Uint) UnsafeSub(value uint) uint {
 // Uint8 is a thread-safe uint8 implementation.
 type Uint8 struct {
 	sync.RWMutex
+
 	value uint8
 }
 
@@ -3706,6 +3717,7 @@ func (p *Uint8) UnsafeSub(value uint8) uint8 {
 // Uint16 is a thread-safe uint16 implementation.
 type Uint16 struct {
 	sync.RWMutex
+
 	value uint16
 }
 
@@ -4100,6 +4112,7 @@ func (p *Uint16) UnsafeSub(value uint16) uint16 {
 // Uint32 is a thread-safe uint32 implementation.
 type Uint32 struct {
 	sync.RWMutex
+
 	value uint32
 }
 
@@ -4494,6 +4507,7 @@ func (p *Uint32) UnsafeSub(value uint32) uint32 {
 // Uint64 is a thread-safe uint64 implementation.
 type Uint64 struct {
 	sync.RWMutex
+
 	value uint64
 }
 

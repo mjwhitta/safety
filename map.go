@@ -5,6 +5,7 @@ import "sync"
 // Map is a thread-safe map[any]any implementation.
 type Map struct {
 	sync.RWMutex
+
 	themap map[any]any
 }
 
@@ -36,7 +37,7 @@ func (m *Map) Delete(k any) (v any) {
 		delete(m.themap, k)
 	}
 
-	return
+	return v
 }
 
 // Get will return a map entry.
@@ -46,7 +47,7 @@ func (m *Map) Get(k any) (v any, ok bool) {
 
 	v, ok = m.themap[k]
 
-	return
+	return v, ok
 }
 
 // Keys will return a snapshot of the valid keys. There is no
@@ -59,7 +60,7 @@ func (m *Map) Keys() (keys []any) {
 		keys = append(keys, k)
 	}
 
-	return
+	return keys
 }
 
 // Put will store a key/value pair.
@@ -89,7 +90,7 @@ func (m *Map) PutIfNew(k any, v any) bool {
 // loop. You should not add or delete entries within Range, and you
 // should avoid calling other Map functions or you may cause deadlock.
 // Range should be safe to nest for any read operations.
-func (m *Map) Range(f func(key, val any) bool) {
+func (m *Map) Range(f func(key any, val any) bool) {
 	m.RLock()
 	defer m.RUnlock()
 
@@ -106,7 +107,7 @@ func (m *Map) Range(f func(key, val any) bool) {
 // the loop. You should not add or delete entries within RangeChange,
 // and you should avoid calling other Map functions or you may cause
 // deadlock.
-func (m *Map) RangeChange(f func(key, val any) (any, bool)) {
+func (m *Map) RangeChange(f func(key any, val any) (any, bool)) {
 	var stop bool
 
 	m.Lock()
